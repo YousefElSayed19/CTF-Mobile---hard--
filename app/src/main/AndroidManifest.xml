@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="NexaWallet"
+        android:theme="@style/Theme.NexaWallet"
+        android:usesCleartextTraffic="false">
+
+        <activity
+            android:name=".ui.LoginActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".ui.RegisterActivity" android:exported="false" />
+        <activity android:name=".ui.HomeActivity" android:exported="false" />
+        <activity android:name=".ui.TransferActivity" android:exported="false" />
+        <activity android:name=".ui.WebTransferActivity" android:exported="false" />
+        <activity android:name=".ui.BlockedActivity" android:exported="false" />
+
+    </application>
+
+</manifest>

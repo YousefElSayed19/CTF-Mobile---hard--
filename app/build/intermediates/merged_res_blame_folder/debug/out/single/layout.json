@@ -1,0 +1,34 @@
+[
+    {
+        "merged": "C:\\Users\\Asus\\.gradle\\daemon\\8.2\\com.example.nexawallet.app-mergeDebugResources-30:\\layout\\activity_transfer.xml",
+        "source": "C:\\Users\\Asus\\.gradle\\daemon\\8.2\\com.example.nexawallet.app-main-33:\\layout\\activity_transfer.xml"
+    },
+    {
+        "merged": "com.example.nexawallet.app-mergeDebugResources-30:/layout/activity_register.xml",
+        "source": "com.example.nexawallet.app-main-33:/layout/activity_register.xml"
+    },
+    {
+        "merged": "C:\\Users\\Asus\\.gradle\\daemon\\8.2\\com.example.nexawallet.app-mergeDebugResources-30:\\layout\\activity_blocked.xml",
+        "source": "C:\\Users\\Asus\\.gradle\\daemon\\8.2\\com.example.nexawallet.app-main-33:\\layout\\activity_blocked.xml"
+    },
+    {
+        "merged": "C:\\Users\\Asus\\.gradle\\daemon\\8.2\\com.example.nexawallet.app-mergeDebugResources-30:\\layout\\activity_web_transfer.xml",
+        "source": "C:\\Users\\Asus\\.gradle\\daemon\\8.2\\com.example.nexawallet.app-main-33:\\layout\\activity_web_transfer.xml"
+    },
+    {
+        "merged": "C:\\Users\\Asus\\.gradle\\daemon\\8.2\\com.example.nexawallet.app-mergeDebugResources-30:\\layout\\activity_register.xml",
+        "source": "C:\\Users\\Asus\\.gradle\\daemon\\8.2\\com.example.nexawallet.app-main-33:\\layout\\activity_register.xml"
+    },
+    {
+        "merged": "C:\\Users\\Asus\\.gradle\\daemon\\8.2\\com.example.nexawallet.app-mergeDebugResources-30:\\layout\\activity_home.xml",
+        "source": "C:\\Users\\Asus\\.gradle\\daemon\\8.2\\com.example.nexawallet.app-main-33:\\layout\\activity_home.xml"
+    },
+    {
+        "merged": "C:\\Users\\Asus\\.gradle\\daemon\\8.2\\com.example.nexawallet.app-mergeDebugResources-30:\\layout\\activity_login.xml",
+        "source": "C:\\Users\\Asus\\.gradle\\daemon\\8.2\\com.example.nexawallet.app-main-33:\\layout\\activity_login.xml"
+    },
+    {
+        "merged": "com.example.nexawallet.app-mergeDebugResources-30:/layout/activity_login.xml",
+        "source": "com.example.nexawallet.app-main-33:/layout/activity_login.xml"
+    }
+]
