@@ -1,0 +1,4 @@
+com.example.nexawallet.test.app-androidTest-0 D:\duckurity\2- CTF MIX ( web , mobile Reverse )\2- Mobile\app\build\generated\res\resValues\androidTest\debug
+com.example.nexawallet.test.app-mergeDebugAndroidTestResources-1 D:\duckurity\2- CTF MIX ( web , mobile Reverse )\2- Mobile\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\merged.dir
+com.example.nexawallet.test.app-mergeDebugAndroidTestResources-2 D:\duckurity\2- CTF MIX ( web , mobile Reverse )\2- Mobile\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\stripped.dir
+com.example.nexawallet.test.app-merged_res-3 D:\duckurity\2- CTF MIX ( web , mobile Reverse )\2- Mobile\app\build\intermediates\merged_res\debugAndroidTest

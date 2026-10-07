@@ -21,6 +21,25 @@
                     }
                 },
                 {
+                    "source": "D:\\duckurity\\2- CTF MIX ( web , mobile Reverse )\\2- Mobile\\app\\src\\main\\res\\values\\themes.xml",
+                    "from": {
+                        "startLines": "1",
+                        "startColumns": "4",
+                        "startOffsets": "63",
+                        "endLines": "8",
+                        "endColumns": "12",
+                        "endOffsets": "526"
+                    },
+                    "to": {
+                        "startLines": "6517",
+                        "startColumns": "4",
+                        "startOffsets": "457751",
+                        "endLines": "6524",
+                        "endColumns": "12",
+                        "endOffsets": "458214"
+                    }
+                },
+                {
                     "source": "C:\\Users\\Asus\\.gradle\\caches\\transforms-3\\ad62ee3f4e4a8069a8e40e8676fd3f21\\transformed\\drawerlayout-1.1.1\\res\\values\\values.xml",
                     "from": {
                         "startLines": "2,3,4,5",
@@ -37,25 +56,6 @@
                         "endLines": "138,141,1057,11238",
                         "endColumns": "55,47,51,24",
                         "endOffsets": "7047,7203,62975,713637"
-                    }
-                },
-                {
-                    "source": "D:\\duckurity\\3- CTF MIX ( web , mobile Reverse )\\2- mobile\\app\\src\\main\\res\\values\\themes.xml",
-                    "from": {
-                        "startLines": "1",
-                        "startColumns": "4",
-                        "startOffsets": "63",
-                        "endLines": "8",
-                        "endColumns": "12",
-                        "endOffsets": "526"
-                    },
-                    "to": {
-                        "startLines": "6517",
-                        "startColumns": "4",
-                        "startOffsets": "457751",
-                        "endLines": "6524",
-                        "endColumns": "12",
-                        "endOffsets": "458214"
                     }
                 },
                 {
@@ -207,23 +207,6 @@
                     }
                 },
                 {
-                    "source": "D:\\duckurity\\3- CTF MIX ( web , mobile Reverse )\\2- mobile\\app\\src\\main\\res\\values\\strings.xml",
-                    "from": {
-                        "startLines": "1",
-                        "startColumns": "4",
-                        "startOffsets": "16",
-                        "endColumns": "47",
-                        "endOffsets": "59"
-                    },
-                    "to": {
-                        "startLines": "1972",
-                        "startColumns": "4",
-                        "startOffsets": "130565",
-                        "endColumns": "47",
-                        "endOffsets": "130608"
-                    }
-                },
-                {
                     "source": "C:\\Users\\Asus\\.gradle\\caches\\transforms-3\\0f58a419ac113f13eb908d878297536a\\transformed\\activity-1.8.0\\res\\values\\values.xml",
                     "from": {
                         "startLines": "2,3",
@@ -238,23 +221,6 @@
                         "startOffsets": "121482,123552",
                         "endColumns": "41,59",
                         "endOffsets": "121519,123607"
-                    }
-                },
-                {
-                    "source": "D:\\duckurity\\3- CTF MIX ( web , mobile Reverse )\\2- mobile\\app\\src\\main\\res\\values\\colors.xml",
-                    "from": {
-                        "startLines": "5,6,1,2,3,4",
-                        "startColumns": "4,4,4,4,4,4",
-                        "startOffsets": "197,239,16,63,110,155",
-                        "endColumns": "41,45,46,46,44,41",
-                        "endOffsets": "234,280,58,105,150,192"
-                    },
-                    "to": {
-                        "startLines": "640,696,948,949,960,963",
-                        "startColumns": "4,4,4,4,4,4",
-                        "startOffsets": "32798,36685,55702,55749,56493,56659",
-                        "endColumns": "41,45,46,46,44,41",
-                        "endOffsets": "32835,36726,55744,55791,56533,56696"
                     }
                 },
                 {
@@ -293,6 +259,23 @@
                         "endLines": "470,634,635,649,650,938,939,1050,1051,1052,1053,1054,1055,1056,1737,1738,1739,1740,1741,1742,1743,1744,1745,1746,1747,1748,1749,1750,1751,1762,1763,1764,1765,1766,1767,1768,1769,1770,1771,1772,1773,1774,1775,1776,1777,1778,1779,1780,1781,1782,1783,1784,1785,1786,1787,1788,1789,1790,1791,1792,1793,1794,1795,1796,1806,1807,1836,1837,1838,1839,1840,1841,1842,1843,1844,1845,1846,1847,1848,1849,1850,1858,1939,1980,1981,1982,1983,1984,1985,1986,2120,6039,6043,6044,6048,6049,7172,7173,10126,10488,11354,11375,11423,11429",
                         "endColumns": "59,71,87,64,65,68,62,69,67,71,69,60,73,72,60,60,61,63,61,60,67,99,59,65,72,68,56,51,61,71,75,64,58,58,59,59,59,59,59,59,59,59,59,59,58,59,59,59,59,59,59,59,59,59,59,58,59,59,58,58,58,58,58,58,34,34,54,62,54,57,57,60,62,56,50,49,60,56,65,33,34,34,69,66,71,68,68,73,71,87,70,116,12,109,12,128,71,66,24,24,24,24,24,24",
                         "endOffsets": "24144,32386,32474,33541,33607,55046,55109,62505,62573,62645,62715,62776,62850,62923,116134,116195,116257,116321,116383,116444,116512,116612,116672,116738,116811,116880,116937,116989,117051,117853,117929,117994,118053,118112,118172,118232,118292,118352,118412,118472,118532,118592,118652,118712,118771,118831,118891,118951,119011,119071,119131,119191,119251,119311,119371,119430,119490,119550,119609,119668,119727,119786,119845,119904,120388,120423,121962,122025,122080,122138,122196,122257,122320,122377,122428,122478,122539,122596,122662,122696,122731,123113,128291,131914,131986,132055,132124,132198,132270,132358,151024,425252,425453,425563,425764,425893,506732,506799,669809,682492,717758,718439,719665,719832"
+                    }
+                },
+                {
+                    "source": "D:\\duckurity\\2- CTF MIX ( web , mobile Reverse )\\2- Mobile\\app\\src\\main\\res\\values\\colors.xml",
+                    "from": {
+                        "startLines": "5,6,1,2,3,4",
+                        "startColumns": "4,4,4,4,4,4",
+                        "startOffsets": "197,239,16,63,110,155",
+                        "endColumns": "41,45,46,46,44,41",
+                        "endOffsets": "234,280,58,105,150,192"
+                    },
+                    "to": {
+                        "startLines": "640,696,948,949,960,963",
+                        "startColumns": "4,4,4,4,4,4",
+                        "startOffsets": "32798,36685,55702,55749,56493,56659",
+                        "endColumns": "41,45,46,46,44,41",
+                        "endOffsets": "32835,36726,55744,55791,56533,56696"
                     }
                 },
                 {
@@ -365,6 +348,23 @@
                         "endLines": "506,1108,1109,1110,1118,1119,1120,1805,12606",
                         "endColumns": "55,58,47,55,74,75,71,65,24",
                         "endOffsets": "25672,66307,66355,66411,67097,67173,67245,120353,763782"
+                    }
+                },
+                {
+                    "source": "D:\\duckurity\\2- CTF MIX ( web , mobile Reverse )\\2- Mobile\\app\\src\\main\\res\\values\\strings.xml",
+                    "from": {
+                        "startLines": "1",
+                        "startColumns": "4",
+                        "startOffsets": "16",
+                        "endColumns": "47",
+                        "endOffsets": "59"
+                    },
+                    "to": {
+                        "startLines": "1972",
+                        "startColumns": "4",
+                        "startOffsets": "130565",
+                        "endColumns": "47",
+                        "endOffsets": "130608"
                     }
                 }
             ]

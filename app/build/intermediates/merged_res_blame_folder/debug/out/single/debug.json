@@ -1,50 +1,42 @@
 [
     {
-        "merged": "C:\\Users\\Asus\\.gradle\\daemon\\8.2\\com.example.nexawallet.app-merged_res-31:\\layout_activity_transfer.xml.flat",
-        "source": "C:\\Users\\Asus\\.gradle\\daemon\\8.2\\com.example.nexawallet.app-main-33:\\layout\\activity_transfer.xml"
+        "merged": "com.example.nexawallet.app-merged_res-31:/layout_activity_login.xml.flat",
+        "source": "com.example.nexawallet.app-main-33:/layout/activity_login.xml"
     },
     {
-        "merged": "C:\\Users\\Asus\\.gradle\\daemon\\8.2\\com.example.nexawallet.app-merged_res-31:\\drawable_ic_launcher_foreground.xml.flat",
-        "source": "C:\\Users\\Asus\\.gradle\\daemon\\8.2\\com.example.nexawallet.app-main-33:\\drawable\\ic_launcher_foreground.xml"
+        "merged": "com.example.nexawallet.app-merged_res-31:/drawable_ic_launcher_background.xml.flat",
+        "source": "com.example.nexawallet.app-main-33:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "com.example.nexawallet.app-merged_res-31:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "com.example.nexawallet.app-main-33:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "com.example.nexawallet.app-merged_res-31:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "com.example.nexawallet.app-main-33:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "com.example.nexawallet.app-merged_res-31:/layout_activity_home.xml.flat",
+        "source": "com.example.nexawallet.app-main-33:/layout/activity_home.xml"
+    },
+    {
+        "merged": "com.example.nexawallet.app-merged_res-31:/layout_activity_blocked.xml.flat",
+        "source": "com.example.nexawallet.app-main-33:/layout/activity_blocked.xml"
+    },
+    {
+        "merged": "com.example.nexawallet.app-merged_res-31:/layout_activity_web_transfer.xml.flat",
+        "source": "com.example.nexawallet.app-main-33:/layout/activity_web_transfer.xml"
+    },
+    {
+        "merged": "com.example.nexawallet.app-merged_res-31:/layout_activity_transfer.xml.flat",
+        "source": "com.example.nexawallet.app-main-33:/layout/activity_transfer.xml"
     },
     {
         "merged": "com.example.nexawallet.app-merged_res-31:/layout_activity_register.xml.flat",
         "source": "com.example.nexawallet.app-main-33:/layout/activity_register.xml"
     },
     {
-        "merged": "C:\\Users\\Asus\\.gradle\\daemon\\8.2\\com.example.nexawallet.app-merged_res-31:\\layout_activity_login.xml.flat",
-        "source": "C:\\Users\\Asus\\.gradle\\daemon\\8.2\\com.example.nexawallet.app-main-33:\\layout\\activity_login.xml"
-    },
-    {
-        "merged": "C:\\Users\\Asus\\.gradle\\daemon\\8.2\\com.example.nexawallet.app-merged_res-31:\\mipmap-anydpi-v26_ic_launcher_round.xml.flat",
-        "source": "C:\\Users\\Asus\\.gradle\\daemon\\8.2\\com.example.nexawallet.app-main-33:\\mipmap-anydpi-v26\\ic_launcher_round.xml"
-    },
-    {
-        "merged": "C:\\Users\\Asus\\.gradle\\daemon\\8.2\\com.example.nexawallet.app-merged_res-31:\\drawable_ic_launcher_background.xml.flat",
-        "source": "C:\\Users\\Asus\\.gradle\\daemon\\8.2\\com.example.nexawallet.app-main-33:\\drawable\\ic_launcher_background.xml"
-    },
-    {
-        "merged": "com.example.nexawallet.app-merged_res-31:/layout_activity_login.xml.flat",
-        "source": "com.example.nexawallet.app-main-33:/layout/activity_login.xml"
-    },
-    {
-        "merged": "C:\\Users\\Asus\\.gradle\\daemon\\8.2\\com.example.nexawallet.app-merged_res-31:\\layout_activity_register.xml.flat",
-        "source": "C:\\Users\\Asus\\.gradle\\daemon\\8.2\\com.example.nexawallet.app-main-33:\\layout\\activity_register.xml"
-    },
-    {
-        "merged": "C:\\Users\\Asus\\.gradle\\daemon\\8.2\\com.example.nexawallet.app-merged_res-31:\\layout_activity_home.xml.flat",
-        "source": "C:\\Users\\Asus\\.gradle\\daemon\\8.2\\com.example.nexawallet.app-main-33:\\layout\\activity_home.xml"
-    },
-    {
-        "merged": "C:\\Users\\Asus\\.gradle\\daemon\\8.2\\com.example.nexawallet.app-merged_res-31:\\layout_activity_blocked.xml.flat",
-        "source": "C:\\Users\\Asus\\.gradle\\daemon\\8.2\\com.example.nexawallet.app-main-33:\\layout\\activity_blocked.xml"
-    },
-    {
-        "merged": "C:\\Users\\Asus\\.gradle\\daemon\\8.2\\com.example.nexawallet.app-merged_res-31:\\mipmap-anydpi-v26_ic_launcher.xml.flat",
-        "source": "C:\\Users\\Asus\\.gradle\\daemon\\8.2\\com.example.nexawallet.app-main-33:\\mipmap-anydpi-v26\\ic_launcher.xml"
-    },
-    {
-        "merged": "C:\\Users\\Asus\\.gradle\\daemon\\8.2\\com.example.nexawallet.app-merged_res-31:\\layout_activity_web_transfer.xml.flat",
-        "source": "C:\\Users\\Asus\\.gradle\\daemon\\8.2\\com.example.nexawallet.app-main-33:\\layout\\activity_web_transfer.xml"
+        "merged": "com.example.nexawallet.app-merged_res-31:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "com.example.nexawallet.app-main-33:/drawable/ic_launcher_foreground.xml"
     }
 ]

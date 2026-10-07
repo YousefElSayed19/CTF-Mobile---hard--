@@ -1,0 +1,4 @@
+#Wed Oct 07 04:42:12 EEST 2026
+base.0=D\:\\duckurity\\2- CTF MIX ( web , mobile Reverse )\\2- Mobile\\app\\build\\intermediates\\dex\\debugAndroidTest\\mergeProjectDexDebugAndroidTest\\0\\classes.dex
+path.0=0/classes.dex
+renamed.0=classes.dex

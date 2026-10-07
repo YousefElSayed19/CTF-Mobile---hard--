@@ -20,8 +20,6 @@ class TransferActivity : AppCompatActivity() {
         binding = ActivityTransferBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // ====== نقطة الفحص المزدوجة (Root/Frida) قبل عرض أي حاجة حساسة ======
-        // كل فحص مستقل تمامًا عن التاني في المصدر والآلية (ملفات vs ذاكرة).
         val rootOrFridaDetected = RootFridaDetector.isDeviceCompromised()
         val memoryTampered = MapsIntegrityCheck.isMemoryTampered()
 
@@ -56,8 +54,6 @@ class TransferActivity : AppCompatActivity() {
 
         val amountPiastres = Math.round(amountEgp * 100)
 
-        // ====== نقطة التحقق الهشة - هدف التلاعب الرئيسي عبر Frida ======
-        // اسم الـ function مقصود يكون غير مرتبط مباشرة بمعنى "فحص الحد الأقصى".
         val approved = validateOp(amountPiastres)
 
         if (!approved) {
@@ -65,11 +61,9 @@ class TransferActivity : AppCompatActivity() {
             return
         }
 
-        // العملية "نجحت" من وجهة نظر التطبيق
         MockBackend.deductBalance(this, username, amountPiastres)
 
         if (amountPiastres > limitPiastres) {
-            // ده المسار اللي المفروض يكون مستحيل الوصول له من غير تلاعب حقيقي وقت التشغيل
             val token = generateBypassToken(username, amountPiastres)
             binding.tvTransferResult.text =
                 "✅ Transfer approved beyond limit!\n\nToken:\n$token"
@@ -78,14 +72,7 @@ class TransferActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * منطق التحقق الحقيقي قبل الموافقة على أي تحويل.
-     * بيعتمد على إشارتين مستقلتين: الحد الأقصى، وحالة الجلسة.
-     *
-     * هنا بالظبط المفروض اللاعب يعمل hook بـ Frida - إما يخلي الـ function
-     * دي ترجع true دايمًا، أو يتلاعب بالقيمتين (limitPiastres و
-     * SessionManager.sessionApproved) في نفس اللحظة.
-     */
+
     private fun validateOp(requestedAmount: Long): Boolean {
         val sessionOk = SessionManager.sessionApproved
         return sessionOk && requestedAmount <= limitPiastres
@@ -95,6 +82,6 @@ class TransferActivity : AppCompatActivity() {
         val raw = "$username:$amount:${System.currentTimeMillis() / 100_000}:nexawallet-local-secret"
         val digest = MessageDigest.getInstance("SHA-256").digest(raw.toByteArray())
         val hex = digest.joinToString("") { "%02x".format(it) }.take(32)
-        return "NXW{$hex}"
+        return "duck{$hex}"
     }
 }
