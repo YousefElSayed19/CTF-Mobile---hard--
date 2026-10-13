@@ -16,3 +16,5 @@ Rather than patching that one check, the detection and authorization logic was r
 See `Mobile CTF Challenge (v1 Design)/OLD_DESIGN_NOTES.md` for the full technical rationale.
 
 **If you're here to play or review the challenge, go to `Mobile CTF Challenge (v2 Design)` — that's the current, active version.**
+
+> **Note (Windows users):** cloning may fail with `Filename too long` due to deep build-artifact paths under v1. Run `git config --global core.longpaths true`, enable Windows long paths (`LongPathsEnabled=1` under `HKLM\SYSTEM\CurrentControlSet\Control\FileSystem`, admin + reboot), then clone again.
