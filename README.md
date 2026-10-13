@@ -7,7 +7,7 @@ This repository contains **two versions** of the same CTF challenge:
 | [`Mobile CTF Challenge (v1 Design)`](./Mobile%20CTF%20Challenge%20(v1%20Design)/) | Legacy — superseded | The original implementation. Kept for historical reference only. |
 | [`Mobile CTF Challenge (v2 Design)`](./Mobile%20CTF%20Challenge%20(v2%20Design)/) | Active — current design | The redesigned challenge. This is the one being implemented and used going forward. |
 
-## Why two versions?
+## Why two versions!
 
 The v1 design had a detection check that depended on the **emulator/device environment** rather than on the player actually using an analysis tool. In practice, this meant some players were blocked with a "Tampering Detected" error without ever touching Frida — just because of which emulator image they happened to be using. That made the challenge inconsistent and wasted player time on an environment issue instead of the actual challenge.
 
