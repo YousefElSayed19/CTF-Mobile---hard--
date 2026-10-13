@@ -1,4 +1,19 @@
-# NexaWallet — Mobile CTF Challenge (Hard)
+> ## ⚠️ LEGACY DESIGN — SUPERSEDED
+>
+> **This document describes the original (v1) design of the NexaWallet CTF challenge, which has since been replaced by a new design.**
+>
+> The original detection logic relied on checking for the presence of root-related files (e.g. `/system/xbin/su`) as part of `RootFridaDetector`. This caused false positives on many common emulator images that ship with `su` present by default, regardless of whether the player was actually using Frida — meaning players could be blocked by "Tampering Detected" without ever touching an analysis tool. This made the challenge inconsistent and wasted player time diagnosing an environment issue rather than solving the actual challenge.
+>
+> Rather than patching this single issue, the detection and authorization logic was redesigned from scratch with:
+> - Detection checks that are fully deterministic (triggered only by actual Frida usage, never by emulator/root state)
+> - A reduced, cleaner set of checkpoints instead of four scattered ones
+> - An added app-structure exploration layer (hidden Activity / manifest analysis) on top of pure Frida hooking, to diversify the required skillset
+>
+> See the new design documentation for the current, active version of this challenge. The content below is kept for historical reference only and does **not** reflect the current implementation.
+>
+> ---
+
+# NexaWallet — Mobile CTF Challenge (Hard) — [LEGACY / v1]
 
 An Android application designed as a CTF challenge that relies entirely on **dynamic instrumentation** (Frida) rather than static reverse engineering.
 
@@ -115,3 +130,22 @@ The following items are **not part of this submission**:
 - [ ] Perform a complete internal test of the challenge by solving it from scratch using Frida to verify the actual difficulty level.
 
 - [ ] Write an official solution/write-up for the organizers.
+
+---
+
+## Known Issue That Led to the Redesign
+
+`RootFridaDetector.checkRootFiles()` flagged the device as compromised based solely on the **presence** of files such as `/system/xbin/su`:
+
+```kotlin
+private fun checkRootFiles(): Boolean {
+    for (path in SUSPICIOUS_PATHS) {
+        if (File(path).exists()) return true
+    }
+    return false
+}
+```
+
+Many emulator system images ship with a `su` binary present by default (for developer convenience), even when the player has never installed or used root/Frida. This caused the challenge to incorrectly block legitimate players before they ever interacted with any analysis tool, making the detection environment-dependent rather than player-dependent.
+
+A minimal fix (checking `canExecute()` in addition to `exists()`) could have resolved this specific false positive. However, the decision was made to redesign the detection and authorization logic from scratch instead of patching it, in order to simultaneously raise the intended difficulty level and diversify the skills required to solve the challenge. See `OLD_DESIGN_NOTES.md` for the full rationale.
