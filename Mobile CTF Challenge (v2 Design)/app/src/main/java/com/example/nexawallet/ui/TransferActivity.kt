@@ -2,6 +2,7 @@ package com.example.nexawallet.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.nexawallet.authorization.TransferAuthorizer
 import com.example.nexawallet.data.LocalLedger
@@ -19,7 +20,9 @@ class TransferActivity : AppCompatActivity() {
         binding = ActivityTransferBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if (IntegrityGate.isTampered()) {
+        val tampered = IntegrityGate.isTampered()
+        Log.d("NexaWalletDebug", "IntegrityGate.isTampered() returned: $tampered")
+        if (tampered) {
             startActivity(Intent(this, RestrictedActivity::class.java))
             finish()
             return
