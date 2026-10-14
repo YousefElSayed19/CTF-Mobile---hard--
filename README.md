@@ -5,7 +5,8 @@ This repository contains **two versions** of the same CTF challenge:
 | Folder | Status | Description |
 |---|---|---|
 | [`Mobile CTF Challenge (v1 Design)`](./Mobile%20CTF%20Challenge%20(v1%20Design)/) | Legacy — superseded | The original implementation. Kept for historical reference only. |
-| [`Mobile CTF Challenge (v2 Design)`](./Mobile%20CTF%20Challenge%20(v2%20Design)/) | Active — current design | The redesigned challenge. This is the one being implemented and used going forward. |
+| [`Mobile CTF Challenge (v2 Design)`](./Mobile%20CTF%20Challenge%20(v2%20Design)/) | Active — current design | The redesigned challenge source/project. This is the one being built and maintained going forward. |
+| [`Mobile CTF Challenge (v2 Design) - Submission`](./Mobile%20CTF%20Challenge%20(v2%20Design)%20-%20Submission/) | Task evidence | The write-up/evidence package for v2 (Objective, Public Briefing, Walkthrough, Root Cause, Mitigation) — same layout as the Reverse Engineering CTF submissions. |
 
 ## Why two versions!
 
