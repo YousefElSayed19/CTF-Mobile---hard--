@@ -86,7 +86,7 @@ object IntegrityGate {
     private fun hasSuspiciousThreads(): Boolean {
         return try {
             Thread.getAllStackTraces().keys.any { thread ->
-                val name = thread.name?.lowercase() ?: return@any false
+                val name = thread.name.lowercase()
                 SUSPICIOUS_THREAD_NAMES.any { name.contains(it) }
             }
         } catch (e: Exception) {
