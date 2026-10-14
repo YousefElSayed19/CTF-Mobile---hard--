@@ -1,5 +1,6 @@
 package com.example.nexawallet.integrity
 
+import android.os.StrictMode
 import java.io.BufferedReader
 import java.io.FileReader
 import java.net.InetSocketAddress
@@ -46,8 +47,18 @@ object IntegrityGate {
      * Frida server listens on 27042 by default. Deliberately naive
      * (trivial to defeat by moving frida-server to another port) —
      * this is meant to be the easy layer, not the whole gate.
+     *
+     * This check is called synchronously from onCreate(), on the main
+     * thread. Android's StrictMode blocks any network operation on
+     * the main thread by default — including connecting to localhost
+     * — and throws NetworkOnMainThreadException, which would silently
+     * be swallowed by the catch below and always read as "no Frida".
+     * The policy is temporarily relaxed around this single, fast,
+     * local check and restored immediately after.
      */
     private fun isFridaPortOpen(): Boolean {
+        val previousPolicy = StrictMode.getThreadPolicy()
+        StrictMode.setThreadPolicy(StrictMode.ThreadPolicy.Builder().permitAll().build())
         return try {
             Socket().use { socket ->
                 socket.connect(InetSocketAddress("127.0.0.1", FRIDA_DEFAULT_PORT), 200)
@@ -55,6 +66,8 @@ object IntegrityGate {
             true
         } catch (e: Exception) {
             false
+        } finally {
+            StrictMode.setThreadPolicy(previousPolicy)
         }
     }
 
