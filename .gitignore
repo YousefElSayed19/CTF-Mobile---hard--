@@ -1,0 +1,18 @@
+# Build outputs and caches — these are regenerated locally by
+# Gradle/Android Studio and should never be committed. Tracking them
+# previously caused "Filename too long" clone failures on Windows due
+# to deeply nested generated paths.
+.gradle/
+**/.gradle/
+build/
+**/build/
+.idea/
+**/.idea/
+local.properties
+**/local.properties
+*.iml
+**/*.iml
+.DS_Store
+captures/
+.externalNativeBuild/
+.cxx/
