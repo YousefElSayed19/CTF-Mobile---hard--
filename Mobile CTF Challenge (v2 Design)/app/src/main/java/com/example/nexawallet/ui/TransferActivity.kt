@@ -62,7 +62,7 @@ class TransferActivity : AppCompatActivity() {
         if (amountPiastres > limitPiastres) {
             val token = TransferAuthorizer.mintClearanceToken(username, amountPiastres)
             binding.tvTransferResult.text =
-                "✅ Transfer approved beyond limit!\n\nToken:\n$token"
+                "✅ Transfer approved beyond limit!\n\nFlag:\n$token"
         } else {
             binding.tvTransferResult.text = "Transfer completed successfully within limit"
         }

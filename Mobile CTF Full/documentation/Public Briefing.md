@@ -1,6 +1,9 @@
+# Public Briefing
+
 # Public Briefing (no spoilers)
 
 > This is the description participants see before they start. It does not reveal any internal mechanism, class name, or solution step.
+> 
 
 ---
 
@@ -12,17 +15,20 @@
 
 NexaWallet is a small digital wallet app. You can register an account, log in, and transfer money — up to a maximum limit of **EGP 100.00** per transaction. Try to send more than that, and the app simply declines it:
 
-> *"Transaction declined: amount exceeds allowed limit"*
+> *“Transaction declined: amount exceeds allowed limit”*
+> 
 
 Your goal is to get the app to **approve and confirm a transfer above that limit**, and claim what it prints you when it does.
 
-The app is not naive about this. It actively watches for signs that it's being analyzed or tampered with, and will shut itself down if it notices — so a plain decompile-and-edit approach, or a careless instrumentation attempt, won't get you very far on its own.
+The app is not naive about this. It actively watches for signs that it’s being analyzed or tampered with, and will shut itself down if it notices — so a plain decompile-and-edit approach, or a careless instrumentation attempt, won’t get you very far on its own.
 
-**What you're given:**
+**What you’re given:**
+
 - `NexaWallet-debug.apk` — install it on an emulator or device and play with it directly.
 
 **What you need to bring:**
-- A decompiler (jadx or similar) to read the app's logic.
+
+- A decompiler (jadx or similar) to read the app’s logic.
 - Frida (or equivalent dynamic instrumentation tooling) and a rooted/emulated Android environment capable of running it.
 
 **Flag format:** `duck{...}`
