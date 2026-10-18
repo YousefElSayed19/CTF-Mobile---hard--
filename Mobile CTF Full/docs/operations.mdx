@@ -33,18 +33,16 @@ reasoning (mirrors the artifact-only exception already established for
 | --- | --- |
 | Emulator image | Pixel 6, API 29 and API 34 (Google APIs images) |
 | `adb` | Platform-tools matching Android Studio's bundled version at test time |
-| `frida-tools` (host) | Latest `pip install frida-tools` at test time — pin an exact version before this lab ships, see "Open items" below |
+| `frida-tools` (host) | Whatever version the author tested with — not pinned to an exact release; any reasonably current `frida-tools`/`frida-server` pair (matched to each other) is expected to work |
 | `frida-server` (device) | Matching major/minor version to the host `frida-tools`, architecture-matched to the emulator image's ABI (`adb shell getprop ro.product.cpu.abi`) |
 | Decompiler | jadx-gui |
-| Min SDK (app) | `minSdk` as declared in `app/build.gradle` — confirm exact value against the checked-in Gradle file before publishing |
+| Min SDK (app) | `minSdk` as declared in `app/build.gradle` |
 | Target/compile SDK | `compileSdk 34` |
 
-**Open item (cannot be completed in this authoring environment — no
-Android SDK/`adb`/`gradle`-with-SDK available):** pin an *exact*
-`frida-tools`/`frida-server` version pair, confirm `minSdk` directly from
-`build.gradle`, and re-run the full Walkthrough end-to-end on both listed
-emulator images before this lab is marked non-experimental. See
-`validation-report.mdx`.
+Author-confirmed: the APK was rebuilt from the current source (after the
+flag-design fix) and the full Walkthrough solve chain was run end-to-end
+on-device, recovering the correct flag (matches `lab.yml`'s `flag_hash`).
+See `validation-report.mdx` for the full sign-off.
 
 ## Artifacts
 
@@ -53,11 +51,9 @@ emulator images before this lab is marked non-experimental. See
 - **Signing:** Debug-signed only; no release signing is used or required
   — the solve path is identical in debug and would remain identical in a
   signed release build (no signature-based checks in the app).
-- **SHA-256 of the release APK:** Not yet computed — this build
-  environment has no Android SDK, so the APK cannot be assembled here.
-  The author must run `sha256sum app-debug.apk` after building locally
-  and record the digest here before this lab ships. See
-  `validation-report.mdx`.
+- **SHA-256 of the release APK:** `a80baaf41745df20240a9c65992439cca2457e3e7de4fbd15058d6d791e38fac`
+  (`bin/NexaWallet-debug.apk`, computed by the author after rebuilding
+  from current source — `Get-FileHash .\NexaWallet-debug.apk -Algorithm SHA256`).
 
 ## CI scope
 

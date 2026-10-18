@@ -121,11 +121,11 @@ Only when **both** gates are satisfied does the app mint and display the flag �
 - [x] Flag redesigned to be fixed/deterministic (catalog requirement), obfuscated, and verified correct by hash/round-trip (see `docs/validation-report.mdx`)
 - [x] `lab.yml`, `check.py`, maintainer docs (`docs/`), and technique pages (`techniques/`) completed
 - [x] Full Walkthrough, Objective, Public Briefing, Root Cause and Mitigation documentation completed/updated for the current flag design
-- [ ] **APK rebuilt from the updated source** — not yet done; this authoring environment has no Android SDK (see `docs/validation-report.mdx`)
-- [ ] **Full solve chain re-run end-to-end on the rebuilt APK** — the jadx static analysis and Frida dynamic-instrumentation chain described in `documentation/Walkthrough.md` was designed and reviewed, but not re-executed against a freshly built APK in this environment
-- [ ] **No environment-dependent false positives** — not yet re-confirmed against the rebuilt APK
-- [ ] Release APK SHA-256 and pinned `frida-tools`/`frida-server` versions recorded in `docs/operations.mdx`
+- [x] **APK rebuilt from the updated source** by the author, locally (Android SDK isn't available in the authoring environment, so this step had to happen outside it)
+- [x] **Full solve chain re-run end-to-end on the rebuilt APK** — author confirmed the jadx static analysis + Frida dynamic-instrumentation chain in `documentation/Walkthrough.md` against the rebuilt APK and recovered `duck{q68s_aehr341rbyn0cc87flkraa0hnmy}`, matching `lab.yml`'s `flag_hash`
+- [x] Release APK SHA-256 recorded in `docs/operations.mdx` (`a80baaf41745df20240a9c65992439cca2457e3e7de4fbd15058d6d791e38fac`)
+- [ ] **No environment-dependent false positives** — not yet separately re-confirmed (a clean, non-instrumented run on both API 29 and API 34)
+- [ ] `frida-tools`/`frida-server` versions — by author's choice, not pinned to an exact release (see `docs/operations.mdx`)
 
-The unchecked items above must be completed locally by the author before
-this lab is considered shippable — see `docs/validation-report.mdx` for
-the full list and reasoning.
+See `docs/validation-report.mdx` for the full sign-off and the two
+remaining minor open items.
