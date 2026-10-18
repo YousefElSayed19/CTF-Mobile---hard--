@@ -1,0 +1,81 @@
+> **Spoiler warning — maintainer/evaluator material.** This is the
+> author's full solution. Do not distribute to players; see
+> `../README.md` and the player-facing `Public Briefing.md` instead.
+
+# Official solution — NexaWallet
+
+The full, reproducible solve is written up in detail in
+`../documentation/Walkthrough.md` (screenshots referenced from
+`../documentation/images/`). This file summarizes the solve chain and the
+exact commands for maintainer/evaluator reference; see the Walkthrough for
+the narrated, screenshot-by-screenshot version.
+
+## Chain summary
+
+1. **Baseline:** Install the APK, register/log in, confirm the normal
+   EGP 100 limit is enforced and a 500 transfer is declined.
+2. **Static recon (jadx):** Decompile the APK. `TransferActivity.onCreate`
+   shows the `IntegrityGate.isTampered()` redirect; the button handler
+   shows `TransferAuthorizer.isTransferAllowed()` gating the over-limit
+   path and `mintClearanceToken()` producing the flag text.
+   `IntegrityGate.isTampered()` reveals three checks (Frida port probe,
+   `/proc/self/maps` scan, thread-name scan). `TransferAuthorizer`
+   reveals the second condition, `ReviewState.isCleared`, set only by
+   `ReviewState.grantClearance(from: ReviewGateActivity)` with a
+   liveness check on the passed instance.
+3. **First hook attempt (intentional dead end):** Hook
+   `IntegrityGate.isTampered()` directly and force `false`. The hook
+   installs with no error, but the app still redirects to
+   `RestrictedActivity`. Root cause: ART/JIT inlines the small function
+   into its caller (`TransferActivity.onCreate`), leaving no call
+   boundary for Frida to intercept.
+4. **Pivot — framework-level hooking:** Hook the underlying framework
+   calls instead: `java.net.Socket.connect()` (reject/skip the
+   `27042` probe), `java.io.BufferedReader.readLine()` (filter lines
+   containing `frida`/`linjector`/`xposed`), and `java.lang.Thread.getName()`
+   (rename Frida's own threads before the scan sees them). See
+   `../documentation/Walkthrough.md` Part 2b for the exact script.
+5. **Gate 2 — find and reach `ReviewGateActivity`:** Text-search the
+   decompiled project for `ReviewGateActivity`. It appears only in its
+   own class definition and in the manifest as
+   `android:exported="false"` — no other component references it, and
+   `adb shell am start -n ...ReviewGateActivity` is refused by the OS.
+   From inside the running (Frida-attached) process, obtain the app's own
+   `Context` via `ActivityThread.currentApplication()` and call
+   `startActivity()` on an `Intent` pointed at `ReviewGateActivity`. The
+   hidden "Compliance Review" screen opens; tap **Approve**, which calls
+   `ReviewState.grantClearance(this)`.
+6. **Collect the flag:** Return to the Transfer screen, submit an
+   over-limit amount again, and the UI displays
+   `✅ Transfer approved beyond limit!` with the `duck{...}` token.
+
+## Fully scripted variant
+
+A single Frida script can drive the entire chain with no manual UI
+interaction, using `Java.choose("com.example.nexawallet.ui.ReviewGateActivity", ...)`
+to grab the live instance Android creates after `startActivity()` and call
+`grantClearance()` on it directly, then similarly `Java.choose()` on
+`TransferActivity` to invoke the transfer logic (or `performClick()` on
+the confirm button). See `../documentation/Walkthrough.md`, "Optional — a
+fully scripted, one-shot solve."
+
+## Flag
+
+```
+duck{q68s_aehr341rbyn0cc87flkraa0hnmy}
+```
+
+`flag_hash` (SHA-256, matches `../lab.yml`):
+`17166ae75476ab1231632df6a4e7d3648d7f2d9453839e885f576eebc4dfd4eb`
+
+## A known, accepted shortcut
+
+A sufficiently determined static reader who locates
+`TransferAuthorizer.ENCODED_FLAG` and its XOR key can decode the flag
+offline without ever running the app or touching either gate. This is a
+documented, accepted trade-off of making the flag fixed (required by the
+catalog's single `flag_hash` field) rather than a bug — see
+`challenge-design.mdx`, "Why the flag design changed during review," and
+`validation-report.mdx`. It does not appear in the intended/taught solve
+path above, and evaluators should not treat finding it as evidence the
+intended chain is unnecessary.

@@ -1,0 +1,103 @@
+# Validation report — NexaWallet
+
+## Status: experimental — not yet fully validated end-to-end
+
+This report tracks what has and has not been independently verified for
+this submission. It is intentionally honest about the gaps rather than
+claiming a clean validation pass, consistent with how this catalog's
+other binary-track lab (`dual-check`) was tracked.
+
+## What was verified in this authoring environment
+
+- **Flag format:** `duck{q68s_aehr341rbyn0cc87flkraa0hnmy}` matches
+  `^duck\{[a-z0-9_]{16,40}\}$` — checked with Python's `re` module.
+- **`flag_hash` correctness:** SHA-256 of the exact flag string equals
+  `17166ae75476ab1231632df6a4e7d3648d7f2d9453839e885f576eebc4dfd4eb`,
+  matching `lab.yml` — checked with Python's `hashlib`.
+- **The obfuscated constant round-trips correctly:** the `ENCODED_FLAG`
+  Base64 string in `TransferAuthorizer.kt`, XOR'd with `0x5A` byte-by-byte,
+  decodes to exactly the flag above — verified independently in Python
+  before the Kotlin was written, and re-verified against the final
+  committed source.
+- **The fix does not reintroduce the original non-determinism bug:**
+  `mintClearanceToken()` no longer reads `username`, `amount`, or
+  `System.currentTimeMillis()` — confirmed by reading the final source
+  (it ignores both parameters entirely and returns the same decoded
+  constant every time).
+- **`check.py` logic:** matches the pattern already validated for
+  `dual-check`'s checker (stdlib-only, reads `flag_hash` from `lab.yml`,
+  enforces the format regex before hashing) — same script structure,
+  adapted paths/values only.
+
+## What was explicitly NOT verified (no Android SDK available here)
+
+This authoring environment has no Android SDK, `adb`, `sdkmanager`, or a
+working `gradlew` wrapper with SDK access — confirmed via
+`which adb sdkmanager gradle`, checking `$ANDROID_HOME`/`$ANDROID_SDK_ROOT`
+(both unset), and confirming no Gradle wrapper is checked into this repo
+for the actual Android Studio project. As a direct result, the following
+**could not be done in this environment** and must be completed by the
+author locally before this lab is considered shippable:
+
+1. **Rebuild the APK** from the now-modified
+   `TransferAuthorizer.kt` (`./gradlew assembleDebug` per
+   `src/BUILD_INSTRUCTIONS.md`).
+2. **Run the full documented solve chain** (`documentation/Walkthrough.md`,
+   Parts 0–4) against the rebuilt APK on a real or emulated device, and
+   confirm the on-device UI actually displays
+   `duck{q68s_aehr341rbyn0cc87flkraa0hnmy}` after completing both gates —
+   the Kotlin-level and hash-level checks above confirm the *logic* is
+   correct, but only an on-device run confirms the full chain (View
+   Binding, Activity lifecycle, Frida attach/hook timing) behaves as
+   documented.
+3. **Confirm no environment-dependent false positive/negative:** that a
+   clean device/emulator with no Frida attached is never blocked below
+   the EGP 100 limit and never reaches the flag unintentionally, and that
+   the three `IntegrityGate` checks behave identically across both listed
+   API levels (29 and 34).
+4. **Compute and record the release APK's SHA-256** in `operations.mdx`
+   (checklist item "Artifacts").
+5. **Pin exact `frida-tools`/`frida-server` versions** used for the
+   verification run (checklist item "BYOD matrix") — currently recorded
+   as "latest at test time," which is not reproducible.
+6. **Confirm the exact `minSdk`** from `app/build.gradle` directly (not
+   yet cross-checked against the live Gradle file in this environment).
+
+## The accepted static-shortcut trade-off
+
+As documented in `challenge-design.mdx` and `official-solution.mdx`: a
+sufficiently determined static reader who locates
+`TransferAuthorizer.ENCODED_FLAG` and its `XOR_KEY` can decode the flag
+offline, without running the app or defeating either gate. This was
+weighed deliberately, not discovered as an afterthought:
+
+- The flag **must** be fixed (one value, one `flag_hash`) — a hard
+  catalog requirement, confirmed with the author via an explicit
+  three-way choice (fixed flag / document as a known limitation / hybrid
+  design); the author chose a fixed flag.
+- A **fixed** value embedded in client-side code is, by the same
+  principle this catalog's `dual-check` lab's own technique pages teach
+  (`aes-key-derivation-from-split-secrets.mdx`,
+  `chained-byte-transform-reversing.mdx`), always statically recoverable
+  by a sufficiently motivated reader — no obfuscation scheme changes that
+  fact, only the effort required.
+- Given that, the chosen design (XOR+Base64, not plaintext) at minimum
+  defeats a trivial `strings`/quick-read scan, which was judged
+  sufficient given the catalog-wide, already-established norm that
+  client-side protections raise cost rather than prevent extraction.
+
+**Recommendation for the maintainer review:** accept this as a documented
+trade-off consistent with the rest of the catalog's binary-track design
+philosophy, rather than requiring a server-side component be added solely
+to close it (which would change this lab's delivery model from BYOD
+artifact to a hosted service, a larger scope change than this submission
+is intended to make).
+
+## Sign-off
+
+Not yet signed off. Blocked on the author completing items 1–6 above
+locally and reporting back (same pattern used for `dual-check`'s
+`checker.exe` Windows rebuild and VaultCorp's Docker re-verification).
+This report should be updated with the results of that local run — and
+the real SHA-256/version pins — before the corresponding GitHub issue
+(#161) is marked resolved.

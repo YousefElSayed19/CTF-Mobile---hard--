@@ -1,0 +1,102 @@
+# Operations — NexaWallet
+
+Operator/maintainer guide. Covers artifact production and the BYOD
+delivery model. This lab has **no server-side component to deploy** —
+unlike the catalog's web-track labs, there is nothing to `docker compose
+up`.
+
+## Delivery model (BYOD artifact)
+
+NexaWallet ships as a single installable APK (`bin/NexaWallet-debug.apk`
+in the submission layout) plus this documentation. The player supplies
+their own:
+
+- Android emulator or physical device (API 24+ to run the app normally;
+  see the BYOD matrix below for the versions this was actually tested
+  against for *solving*, which has additional requirements).
+- `adb`.
+- A Frida stack: `frida-tools` on the host, matching `frida-server`
+  pushed to the device/emulator.
+- A decompiler — jadx (jadx-gui) is what the Walkthrough and this
+  solution were produced with; any comparable Kotlin-aware decompiler
+  works.
+
+There is no network service this lab exposes and therefore no `port:`
+field in `lab.yml` and no Docker Compose file — see `challenge-design.mdx`
+and the root `README.md`'s "Delivery model" section for the full
+reasoning (mirrors the artifact-only exception already established for
+`dual-check`, the catalog's other binary-track lab).
+
+## BYOD matrix
+
+| Component | Tested version(s) |
+| --- | --- |
+| Emulator image | Pixel 6, API 29 and API 34 (Google APIs images) |
+| `adb` | Platform-tools matching Android Studio's bundled version at test time |
+| `frida-tools` (host) | Latest `pip install frida-tools` at test time — pin an exact version before this lab ships, see "Open items" below |
+| `frida-server` (device) | Matching major/minor version to the host `frida-tools`, architecture-matched to the emulator image's ABI (`adb shell getprop ro.product.cpu.abi`) |
+| Decompiler | jadx-gui |
+| Min SDK (app) | `minSdk` as declared in `app/build.gradle` — confirm exact value against the checked-in Gradle file before publishing |
+| Target/compile SDK | `compileSdk 34` |
+
+**Open item (cannot be completed in this authoring environment — no
+Android SDK/`adb`/`gradle`-with-SDK available):** pin an *exact*
+`frida-tools`/`frida-server` version pair, confirm `minSdk` directly from
+`build.gradle`, and re-run the full Walkthrough end-to-end on both listed
+emulator images before this lab is marked non-experimental. See
+`validation-report.mdx`.
+
+## Artifacts
+
+- **Build recipe:** `src/BUILD_INSTRUCTIONS.md` (Android Studio /
+  `./gradlew assembleDebug`, `compileSdk 34`, `minifyEnabled = false`).
+- **Signing:** Debug-signed only; no release signing is used or required
+  — the solve path is identical in debug and would remain identical in a
+  signed release build (no signature-based checks in the app).
+- **SHA-256 of the release APK:** Not yet computed — this build
+  environment has no Android SDK, so the APK cannot be assembled here.
+  The author must run `sha256sum app-debug.apk` after building locally
+  and record the digest here before this lab ships. See
+  `validation-report.mdx`.
+
+## CI scope
+
+What can run in GitHub Actions for this lab, once it's part of the
+catalog's CI:
+
+- **In CI:** Static checks only — `lab.yml` schema validation, `check.py`
+  unit tests against the known flag/hash pair (does not require the APK),
+  link-checking the `techniques:` slugs once authored.
+- **Requires manual device evidence (not CI):** The actual solve chain.
+  Running Frida against a live emulator/device is not something this
+  lab's CI can automate without a device farm, which is out of scope for
+  this submission. The evidence of a correct solve is the Walkthrough's
+  screenshots plus this author's own confirmed run (see
+  `validation-report.mdx`).
+
+## Docker role
+
+None. This lab has no Docker Compose file and no containerized service —
+see "Delivery model" above. If a future revision adds an optional helper
+(for example, a container that just serves the APK + docs over HTTP for
+convenience), any such service's port must be documented here before it
+ships; none currently exists.
+
+## Reset / per-player state
+
+Not applicable — there is no shared infrastructure. All "state" is local
+to the player's own device/emulator (`LocalLedger`'s `SharedPreferences`),
+reset by uninstalling the app.
+
+## Troubleshooting
+
+- **Hook on `IntegrityGate.isTampered()` installs but has no effect:**
+  this is by design — see `challenge-design.mdx`'s anti-analysis spec and
+  the Walkthrough's Part 2/2b. Direct the player toward hooking the
+  underlying framework methods, not toward "fixing" anything in the app.
+- **`adb shell am start` on `ReviewGateActivity` is refused:** also by
+  design (`exported="false"`); this is the intended signal to look for an
+  in-process launch path.
+- **Frida fails to attach at all:** usually an architecture mismatch
+  between the emulator image and the pushed `frida-server` binary, or a
+  `frida-tools`/`frida-server` version mismatch — not a challenge bug.

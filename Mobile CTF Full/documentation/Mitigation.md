@@ -1,5 +1,3 @@
-# Mitigation
-
 # Mitigation — Recommendations for Real-World Systems
 
 These map directly onto the four root-cause points. They describe how a *real* mobile banking/wallet system should be built to avoid the class of weakness this challenge demonstrates — not changes to make this specific crackme harder (it’s intentionally built to be beatable).

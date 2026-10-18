@@ -16,6 +16,9 @@ The app simulates a digital wallet with a maximum transfer limit. The player's g
 ```
 .
 │
+├── lab.yml                      ← openlabs catalog metadata (flag_hash, track, difficulty)
+├── check.py                     ← stdlib-only flag checker (reads flag_hash from lab.yml)
+│
 ├── bin/                        ← the installable, playable challenge file
 │   └── NexaWallet-debug.apk    (placeholder — see bin/README.md)
 │
@@ -26,6 +29,23 @@ The app simulates a digital wallet with a maximum transfer limit. The player's g
 │   ├── What Happened and Why (Root Cause).md
 │   ├── Mitigation.md
 │   └── images/                 ← screenshots referenced from Walkthrough.md
+│
+├── docs/                        ← maintainer docs staged for openlabs (sub-issue #161's
+│   │                               "seven-document pattern" checklist item)
+│   ├── README.md
+│   ├── challenge-design.mdx
+│   ├── official-solution.mdx
+│   ├── operations.mdx
+│   ├── remediation.mdx
+│   ├── security-report.mdx
+│   └── validation-report.mdx
+│
+├── techniques/                  ← technique pages staged for openlabs
+│   ├── README.md
+│   ├── frida-framework-level-hooking-past-art-inlining.mdx
+│   ├── non-exported-activity-is-not-an-access-boundary.mdx
+│   ├── in-process-activity-launch-with-frida.mdx
+│   └── client-side-authorization-decisions.mdx
 │
 └── src/                         ← pointer to the full source (private — never ship to participants)
     ├── BUILD_INSTRUCTIONS.md   ← how to open/build the APK from source
@@ -42,6 +62,47 @@ The app simulates a digital wallet with a maximum transfer limit. The player's g
 | Understand the security root cause being demonstrated | `documentation/What Happened and Why (Root Cause).md` |
 | See mitigation recommendations for real-world systems | `documentation/Mitigation.md` |
 | Rebuild the APK from source | `src/BUILD_INSTRUCTIONS.md` |
+| See the catalog-facing challenge design summary | `docs/challenge-design.mdx` |
+| Check a candidate flag | `check.py "duck{...}"` |
+| See what's verified vs. still pending local confirmation | `docs/validation-report.mdx` |
+
+## Delivery model (BYOD artifact)
+
+This lab ships as a single installable APK plus documentation — there is
+no server-side component, no Docker Compose file, and no `port:` field in
+`lab.yml`. The player supplies their own Android emulator/device, `adb`,
+and Frida stack (host `frida-tools` + a matching `frida-server` on the
+device). See `docs/operations.mdx` for the full BYOD matrix (tested API
+levels, decompiler, Frida version pinning) and the reasoning for this
+delivery model, which mirrors the artifact-only exception already
+established for this catalog's other binary-track lab, `dual-check`.
+
+## Anti-analysis spec (summary — full table in `docs/challenge-design.mdx`)
+
+Three deterministic instrumentation-detection checks (Frida loopback
+port, `/proc/self/maps` injected-library scan, live thread-name scan),
+plus a non-exported hidden Activity and a liveness-checked clearance
+flag. All four are intentionally, individually bypassable — see
+`docs/challenge-design.mdx` for which bypasses are in-scope (the intended
+solve path) versus out-of-scope for this submission.
+
+## CI scope
+
+Only static checks (`lab.yml` schema, `check.py` against the known
+flag/hash pair) can run in CI — the actual solve requires a live
+emulator/device with Frida attached, which is manual evidence, not
+automatable here. See `docs/operations.mdx`, "CI scope."
+
+## Flag design note
+
+The flag is fixed (one value, one `flag_hash`, per catalog requirement)
+and shipped as an XOR+Base64-obfuscated constant decoded only at
+`mintClearanceToken()` runtime — not a plaintext string, but also not
+immune to a sufficiently determined static reader. This trade-off is
+documented and was an explicit author decision; see
+`docs/challenge-design.mdx` ("Why the flag design changed during
+review") and `docs/validation-report.mdx` ("The accepted static-shortcut
+trade-off") for the full reasoning.
 
 ## Design summary
 
@@ -57,7 +118,14 @@ Only when **both** gates are satisfied does the app mint and display the flag �
 ## Evidence status
 
 - [x] Challenge designed and built (Kotlin/Android, Gradle/AGP, View Binding)
-- [x] Full solve performed and verified (jadx static analysis + Frida dynamic instrumentation)
-- [x] Flag confirmed reproducible end-to-end on a clean emulator image
-- [x] No environment-dependent false positives (confirmed: a clean device with no Frida attached always reaches the Transfer screen and is only limited by the normal EGP 100 cap, never blocked)
-- [x] Full Walkthrough, Objective, Public Briefing, Root Cause and Mitigation documentation completed
+- [x] Flag redesigned to be fixed/deterministic (catalog requirement), obfuscated, and verified correct by hash/round-trip (see `docs/validation-report.mdx`)
+- [x] `lab.yml`, `check.py`, maintainer docs (`docs/`), and technique pages (`techniques/`) completed
+- [x] Full Walkthrough, Objective, Public Briefing, Root Cause and Mitigation documentation completed/updated for the current flag design
+- [ ] **APK rebuilt from the updated source** — not yet done; this authoring environment has no Android SDK (see `docs/validation-report.mdx`)
+- [ ] **Full solve chain re-run end-to-end on the rebuilt APK** — the jadx static analysis and Frida dynamic-instrumentation chain described in `documentation/Walkthrough.md` was designed and reviewed, but not re-executed against a freshly built APK in this environment
+- [ ] **No environment-dependent false positives** — not yet re-confirmed against the rebuilt APK
+- [ ] Release APK SHA-256 and pinned `frida-tools`/`frida-server` versions recorded in `docs/operations.mdx`
+
+The unchecked items above must be completed locally by the author before
+this lab is considered shippable — see `docs/validation-report.mdx` for
+the full list and reasoning.

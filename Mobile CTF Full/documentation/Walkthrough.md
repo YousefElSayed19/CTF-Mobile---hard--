@@ -1,5 +1,3 @@
-# Walkthrough
-
 # Walkthrough — Full Solve, Step by Step
 
 This reproduces the challenge exactly as a participant would experience it: install the APK, poke at it manually first, decompile it, hit a dead end, figure out *why*, pivot, and chain the two gates to reach the flag.
@@ -327,6 +325,20 @@ duck{d0794f86084a345be0c49fde4f957546}
 ```
 
 That  is the flag. :)
+
+> **Note (post-fix):** this run was performed against a build from before the
+> flag-minting logic was fixed (see `docs/challenge-design.mdx`, "Why the
+> flag design changed during review"). At the time, `mintClearanceToken()`
+> derived the flag from the player's username, amount, and a wall-clock
+> timestamp bucket, so the exact value shown above
+> (`duck{d0794f86084a345be0c49fde4f957546}`) is specific to that run and
+> will differ from the flag a freshly built APK now mints. The chain of
+> steps above (Parts 0–4) is otherwise unaffected — the fix only changed
+> what `mintClearanceToken()` returns, not when it's called or what has to
+> happen to reach it. The current, fixed flag and its hash are in
+> `lab.yml` / `docs/official-solution.mdx`; `bin/NexaWallet-debug.apk` in
+> this repo must be rebuilt from the current source before it will
+> actually produce that flag — see `docs/validation-report.mdx`.
 
 ---
 

@@ -1,0 +1,77 @@
+# Security report — NexaWallet
+
+Training documentation for a fictional, self-contained Android
+reverse-engineering lab. Built around "NexaWallet," a fictional digital
+wallet app. No real users, accounts, funds, or backend exist anywhere in
+this lab.
+
+## Objective
+
+Dynamic Android instrumentation practice, rated **hard**, expected solve
+time 45–90 minutes for a player comfortable with jadx and basic Frida
+scripting.
+
+## Starting point
+
+The player installs the APK fresh, registers a local account (no real
+data, no network calls to any real service), and reaches the Transfer
+screen showing a fixed EGP 100.00 limit.
+
+## Attack chain
+
+1. **Recon:** Static decompilation (jadx) of `TransferActivity`,
+   `IntegrityGate`, `TransferAuthorizer`, and `ReviewState` reveals the
+   full shape of both gates and the flag-minting call site, without
+   revealing the flag itself (which is obfuscated, not plaintext).
+2. **Gate 1 bypass — diagnosing a hook that doesn't fire:** A direct hook
+   on `IntegrityGate.isTampered()` installs cleanly but has no observable
+   effect, because ART/JIT inlines the small function into its caller.
+   The player must recognize this specific failure mode and pivot to
+   hooking the underlying framework methods (`Socket.connect`,
+   `BufferedReader.readLine`, `Thread.getName`) instead.
+3. **Gate 2 discovery and reach:** `ReviewGateActivity` is present in the
+   compiled app and declared in the manifest, but `exported="false"` and
+   never referenced by any other component — unreachable through the UI
+   or `adb shell am start`. The player must launch it from inside the
+   running (Frida-attached) process via the app's own `Context`.
+4. **Flag collection:** With both gates satisfied, submitting an
+   over-limit transfer causes `TransferAuthorizer.mintClearanceToken()`
+   to execute and display the `duck{...}` token.
+
+## Mapped concepts
+
+This lab is not built around a CWE/OWASP-Mobile-Top-10 single finding in
+the way a typical injection or authz bug is; it's a demonstration of a
+broader architectural pattern — **client-side-only authorization and
+proof-of-authorization** — closest to OWASP Mobile Top 10 M8 (Security
+Misconfiguration) and M9 (Insecure Data Storage/client-trust issues) in
+spirit, and directly analogous to "never trust the client" findings
+common in real mobile-banking and anti-cheat security reviews.
+
+## Remediation (summary — full detail in `remediation.mdx`)
+
+Move the authorization decision, the integrity-signal evaluation, the
+review/approval workflow, and the proof-of-success minting all to a
+backend the attacker does not control; treat every client-side check in
+this lab as, at most, a signal reported to that backend, never as a
+decision made on its own.
+
+## Verification
+
+Retests for a remediated real-world design should confirm: no amount of
+client-side manipulation (hooking, patching, direct memory/field
+modification) can produce a valid transaction confirmation without the
+backend independently verifying and issuing it. For this lab itself
+(unchanged, since it is intentionally vulnerable for training purposes),
+verification is: the documented solve chain reliably works end-to-end on
+a clean install, and a clean device/emulator with no instrumentation
+attached is never blocked below the legitimate EGP 100 limit and never
+produces the flag through the normal, unmodified UI flow.
+
+## Scope
+
+Local, player-supplied (BYOD) environment only. No real accounts, data,
+funds, or backend services exist anywhere in this lab or its supporting
+documentation. See `../documentation/Public Briefing.md` for the
+player-facing, non-spoiler description, and `official-solution.mdx` for
+the full spoiler-laden writeup.

@@ -1,14 +1,13 @@
 # Objective
 
-# Objective
-
 ## What this challenge is testing
 
 NexaWallet is a mobile crackme built to exercise **dynamic** Android reverse engineering — the player is expected to use runtime instrumentation (Frida), not just a static decompile-and-patch approach, because:
 
-- There is no secret string, hidden flag, or precomputed answer sitting in the APK for a `strings` scan or a quick jadx read to turn up directly.
-- The flag is **derived at runtime** from a hash of the player’s own session data (username, amount, a coarse timestamp bucket) — it does not exist anywhere until the app’s own authorization logic decides a transfer is legitimately approved and mints it.
+- There is no secret string, hidden flag, or precomputed answer sitting in the APK for a plain `strings` scan or a quick jadx read to turn up directly — the flag constant is XOR+Base64-obfuscated, not plaintext, inside `TransferAuthorizer`.
+- The flag is **fixed** (the same for every player, every attempt — a catalog requirement, since the lab ships a single `flag_hash`), but it is only ever produced by `TransferAuthorizer.mintClearanceToken()`, which only executes once the app’s own authorization logic decides a transfer is legitimately approved beyond the limit — reaching that call is the actual challenge, not the decode step itself.
 - Getting there requires defeating two independent, compounding security mechanisms, each one testing a different skill.
+- A sufficiently determined static reader who locates the obfuscated constant and its XOR key can, in principle, decode the flag offline without ever touching the live app. This is an intentional, documented trade-off (see `validation-report.mdx` in the maintainer docs) rather than an oversight: it mirrors the "effort, not prevention" principle behind every client-side protection in this lab, and the intended, expected solve path is still the full dynamic chain below.
 
 ## Skills exercised
 
