@@ -74,21 +74,18 @@ catalog's CI:
 ## Docker role
 
 Distribution-only. `bin/docker-compose.yml` runs a single
-`nexawallet-dist` service (`python:3.12-alpine`, `python3 -m
-http.server`) that serves this folder's `NexaWallet-debug.apk` and the
-`../docs/` tree over plain HTTP on the documented host port, **`8090`**
-(recorded in `lab.yml`). It exists only to satisfy the catalog's general
+`nexawallet-dist` service (`python:3.12-alpine`, pinned to digest
+`sha256:1b668429b3511ab407d8e00648891631b0b1a4d7e15e3ca70f38ab5b91ad4ab4`
+— author-confirmed via `docker pull` + `docker inspect` on their own
+machine, matching the digest-pinning convention used in
+`labs/web/vaultcorp/`'s `Dockerfile`; `python3 -m http.server`) that
+serves this folder's `NexaWallet-debug.apk` and the `../docs/` tree over
+plain HTTP on the documented host port, **`8090`** (recorded in
+`lab.yml`). It exists only to satisfy the catalog's general
 `docker-compose.yml`/`validate.py` requirement for a BYOD binary lab —
 nothing in the intended solve chain connects to it, reads from it, or
 depends on it in any way; the player still installs the APK directly via
 `adb install`, per "Delivery model" above.
-
-**Known gap:** the base image (`python:3.12-alpine`) is pinned to a tag,
-not a digest, unlike `labs/web/vaultcorp/`'s `Dockerfile` — this
-authoring environment has no network access to Docker Hub to resolve a
-real `sha256` digest. Pin this before merge if the catalog requires
-digest-pinned images for every service, including distribution-only
-ones.
 
 ## Reset / per-player state
 
