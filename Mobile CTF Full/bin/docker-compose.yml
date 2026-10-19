@@ -1,0 +1,30 @@
+version: "3.9"
+
+# Distribution-only helper for NexaWallet.
+#
+# This lab has no server-side component and nothing in the intended solve
+# path touches this container — the player installs bin/NexaWallet-debug.apk
+# directly on their own emulator/device (see ../README.md, "Delivery model").
+#
+# This service exists only so the catalog's general docker-compose.yml /
+# validate.py requirement has something to validate for a BYOD binary lab:
+# it serves this folder's APK and the maintainer docs over plain HTTP, for
+# convenience, and is never required to solve the challenge.
+#
+# Base image is NOT pinned to a digest (unlike labs/web/vaultcorp/'s
+# Dockerfile): this authoring environment has no network access to Docker
+# Hub to resolve/verify a real sha256 digest. Pin this to a specific digest
+# before merge if the catalog requires it, the same way the author pinned
+# the VaultCorp base images from their own machine.
+services:
+  nexawallet-dist:
+    image: python:3.12-alpine
+    container_name: nexawallet-dist
+    working_dir: /dist
+    volumes:
+      - ./NexaWallet-debug.apk:/dist/NexaWallet-debug.apk:ro
+      - ../docs:/dist/docs:ro
+    ports:
+      - "8090:8090"
+    command: ["python3", "-m", "http.server", "8090"]
+    restart: unless-stopped

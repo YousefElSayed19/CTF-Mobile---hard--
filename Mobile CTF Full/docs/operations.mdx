@@ -1,9 +1,11 @@
 # Operations — NexaWallet
 
 Operator/maintainer guide. Covers artifact production and the BYOD
-delivery model. This lab has **no server-side component to deploy** —
-unlike the catalog's web-track labs, there is nothing to `docker compose
-up`.
+delivery model. This lab has **no server-side component the solve
+depends on** — unlike the catalog's web-track labs, nothing in the
+intended solve path talks to a container. A `docker-compose.yml` is
+present (see "Docker role" below), but it is a distribution-only
+convenience, not part of the challenge.
 
 ## Delivery model (BYOD artifact)
 
@@ -21,11 +23,10 @@ their own:
   solution were produced with; any comparable Kotlin-aware decompiler
   works.
 
-There is no network service this lab exposes and therefore no `port:`
-field in `lab.yml` and no Docker Compose file — see `challenge-design.mdx`
-and the root `README.md`'s "Delivery model" section for the full
-reasoning (mirrors the artifact-only exception already established for
-`dual-check`, the catalog's other binary-track lab).
+`lab.yml` documents `port: 8090` for the optional distribution helper
+below — this is not a port the solve chain ever connects to. See
+`challenge-design.mdx` and the root `README.md`'s "Delivery model"
+section for the full reasoning.
 
 ## BYOD matrix
 
@@ -72,11 +73,22 @@ catalog's CI:
 
 ## Docker role
 
-None. This lab has no Docker Compose file and no containerized service —
-see "Delivery model" above. If a future revision adds an optional helper
-(for example, a container that just serves the APK + docs over HTTP for
-convenience), any such service's port must be documented here before it
-ships; none currently exists.
+Distribution-only. `bin/docker-compose.yml` runs a single
+`nexawallet-dist` service (`python:3.12-alpine`, `python3 -m
+http.server`) that serves this folder's `NexaWallet-debug.apk` and the
+`../docs/` tree over plain HTTP on the documented host port, **`8090`**
+(recorded in `lab.yml`). It exists only to satisfy the catalog's general
+`docker-compose.yml`/`validate.py` requirement for a BYOD binary lab —
+nothing in the intended solve chain connects to it, reads from it, or
+depends on it in any way; the player still installs the APK directly via
+`adb install`, per "Delivery model" above.
+
+**Known gap:** the base image (`python:3.12-alpine`) is pinned to a tag,
+not a digest, unlike `labs/web/vaultcorp/`'s `Dockerfile` — this
+authoring environment has no network access to Docker Hub to resolve a
+real `sha256` digest. Pin this before merge if the catalog requires
+digest-pinned images for every service, including distribution-only
+ones.
 
 ## Reset / per-player state
 

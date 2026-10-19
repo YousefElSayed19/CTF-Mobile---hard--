@@ -66,13 +66,17 @@ The app simulates a digital wallet with a maximum transfer limit. The player's g
 ## Delivery model (BYOD artifact)
 
 This lab ships as a single installable APK plus documentation — there is
-no server-side component, no Docker Compose file, and no `port:` field in
-`lab.yml`. The player supplies their own Android emulator/device, `adb`,
-and Frida stack (host `frida-tools` + a matching `frida-server` on the
-device). See `docs/operations.mdx` for the full BYOD matrix (tested API
-levels, decompiler, Frida version pinning) and the reasoning for this
-delivery model, which mirrors the artifact-only exception already
-established for this catalog's other binary-track lab, `dual-check`.
+no server-side component the solve depends on. The player supplies their
+own Android emulator/device, `adb`, and Frida stack (host `frida-tools`
++ a matching `frida-server` on the device). See `docs/operations.mdx`
+for the full BYOD matrix (tested API levels, decompiler, Frida version
+pinning).
+
+`bin/docker-compose.yml` and `lab.yml`'s `port: 8090` exist only to
+satisfy the catalog's general `docker-compose.yml`/`validate.py`
+requirement — they run a distribution-only HTTP server for the APK and
+docs, and nothing in the intended solve path ever touches that service.
+See `docs/operations.mdx`, "Docker role."
 
 ## Anti-analysis spec (summary — full table in `docs/challenge-design.mdx`)
 
