@@ -35,8 +35,8 @@ Android SDK, so these steps had to happen on the author's own machine)
 
 1. **Rebuilt the APK** from the fixed `TransferAuthorizer.kt`
    (`./gradlew assembleDebug` per `src/BUILD_INSTRUCTIONS.md`). ✅
-2. **Ran the full documented solve chain** (`documentation/Walkthrough.md`,
-   Parts 0–4) against the rebuilt APK on-device, and confirmed the
+2. **Ran the full documented solve chain** (`official-solution.mdx`,
+   "Full narrated walkthrough", Parts 0–4) against the rebuilt APK on-device, and confirmed the
    on-device UI displayed `duck{q68s_aehr341rbyn0cc87flkraa0hnmy}` after
    completing both gates — matching `lab.yml`'s `flag_hash`
    (`17166ae75476ab1231632df6a4e7d3648d7f2d9453839e885f576eebc4dfd4eb`,
@@ -53,12 +53,10 @@ Android SDK, so these steps had to happen on the author's own machine)
   `IntegrityGate` checks behave identically across both listed API
   levels (29 and 34) — the author's solve run covered the intended
   bypass path, not this negative case.
-- **`frida-tools`/`frida-server` version pinning:** by author's choice,
-  not pinned to an exact release — `operations.mdx`'s BYOD matrix
-  documents this as "whatever version the author tested with," not a
-  specific reproducible pin. Acceptable for a BYOD lab where the player
-  supplies their own current tooling; flagging in case the maintainer
-  wants an exact pin for reproducibility.
+- ~~**`frida-tools`/`frida-server` version pinning**~~ — resolved. Per
+  maintainer request, one pinned pair is now recorded: `frida-tools
+  17.22.0` on the host, `frida-server-17.22.0-android-x86` on the device
+  (x86 emulator image). See `operations.mdx`'s BYOD matrix.
 - **Exact `minSdk`:** not yet cross-checked directly against the live
   `app/build.gradle` file in this environment.
 

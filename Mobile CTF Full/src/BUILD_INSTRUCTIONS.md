@@ -45,5 +45,5 @@ Copy this into `../bin/` (see `../bin/README.md`) and rename it to `NexaWallet-d
 
 ## Notes
 
-- `minifyEnabled` is currently `false` for easier verification during development; enabling R8/ProGuard before distributing to participants is optional hardening (see `documentation/Mitigation.md`) and does not change the solve path, only the effort needed to read the decompiled code.
+- `minifyEnabled` is currently `false` for easier verification during development; enabling R8/ProGuard before distributing to participants is optional hardening (see `docs/remediation.mdx`) and does not change the solve path, only the effort needed to read the decompiled code.
 - There is no backend server for this challenge — all persistence (`LocalLedger`) is local `SharedPreferences`, reset by uninstalling the app.

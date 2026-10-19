@@ -33,8 +33,8 @@ reasoning (mirrors the artifact-only exception already established for
 | --- | --- |
 | Emulator image | Pixel 6, API 29 and API 34 (Google APIs images) |
 | `adb` | Platform-tools matching Android Studio's bundled version at test time |
-| `frida-tools` (host) | Whatever version the author tested with — not pinned to an exact release; any reasonably current `frida-tools`/`frida-server` pair (matched to each other) is expected to work |
-| `frida-server` (device) | Matching major/minor version to the host `frida-tools`, architecture-matched to the emulator image's ABI (`adb shell getprop ro.product.cpu.abi`) |
+| `frida-tools` (host) | **17.22.0** (pinned, per maintainer request) |
+| `frida-server` (device) | **`frida-server-17.22.0-android-x86`** (pinned, matching the host `frida-tools` version above; `-x86` because the author's test emulator image reported an x86 ABI via `adb shell getprop ro.product.cpu.abi`) — a different ABI emulator needs the matching `frida-server-17.22.0-android-<abi>` build instead |
 | Decompiler | jadx-gui |
 | Min SDK (app) | `minSdk` as declared in `app/build.gradle` |
 | Target/compile SDK | `compileSdk 34` |
@@ -95,4 +95,7 @@ reset by uninstalling the app.
   in-process launch path.
 - **Frida fails to attach at all:** usually an architecture mismatch
   between the emulator image and the pushed `frida-server` binary, or a
-  `frida-tools`/`frida-server` version mismatch — not a challenge bug.
+  `frida-tools`/`frida-server` version mismatch — not a challenge bug. If
+  in doubt, use the pinned pair above (`frida-tools 17.22.0` /
+  `frida-server-17.22.0-android-x86`, substituting the matching ABI
+  suffix for a non-x86 image).
