@@ -37,8 +37,8 @@ section for the full reasoning.
 | `frida-tools` (host) | **17.22.0** (pinned, per maintainer request) |
 | `frida-server` (device) | **`frida-server-17.22.0-android-x86`** (pinned, matching the host `frida-tools` version above; `-x86` because the author's test emulator image reported an x86 ABI via `adb shell getprop ro.product.cpu.abi`) — a different ABI emulator needs the matching `frida-server-17.22.0-android-<abi>` build instead |
 | Decompiler | jadx-gui |
-| Min SDK (app) | `minSdk` as declared in `app/build.gradle` |
-| Target/compile SDK | `compileSdk 34` |
+| Min SDK (app) | `minSdk 24` (confirmed directly against `app/build.gradle` in `Mobile CTF Challenge (v2 Design)/app/` — see `validation-report.mdx`) |
+| Target/compile SDK | `compileSdk 34`, `targetSdk 34` |
 
 Author-confirmed: the APK was rebuilt from the current source (after the
 flag-design fix) and the full Walkthrough solve chain was run end-to-end

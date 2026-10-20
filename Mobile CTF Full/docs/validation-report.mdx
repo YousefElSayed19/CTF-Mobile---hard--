@@ -1,6 +1,6 @@
 # Validation report — NexaWallet
 
-## Status: author-verified end-to-end; two minor open items
+## Status: author-verified end-to-end; fully closed
 
 The full solve chain has now been run end-to-end by the author against a
 freshly rebuilt APK, recovering the correct flag. This report tracks
@@ -45,20 +45,36 @@ Android SDK, so these steps had to happen on the author's own machine)
    `operations.mdx`: `a80baaf41745df20240a9c65992439cca2457e3e7de4fbd15058d6d791e38fac`
    (`Get-FileHash` on Windows). ✅
 
-## Remaining open items
+## Remaining open items (now closed)
 
-- **Environment-dependent false positive/negative check:** not yet
-  separately confirmed that a clean device/emulator with no Frida
-  attached is never blocked below the EGP 100 limit, and that the three
-  `IntegrityGate` checks behave identically across both listed API
-  levels (29 and 34) — the author's solve run covered the intended
-  bypass path, not this negative case.
+- ~~**Environment-dependent false positive/negative check**~~ — resolved
+  on an API 29 emulator by the maintainer (`0xyouzv`), live:
+  - **Negative case:** `frida-server` was found running (PID 12457,
+    root), killed (`adb root` + `kill -9`), confirmed gone from
+    `ps -A`, and the app was relaunched clean. With no Frida attached,
+    the app did **not** false-positive-block — a normal transfer of
+    EGP 100 went through successfully.
+  - **Positive case:** `frida-server` was then re-attached on the same
+    emulator/API image, and `IntegrityGate` correctly blocked as
+    expected — confirming the detection logic still fires when it
+    should, not just when it shouldn't.
+  - API 34 parity was intentionally **not** re-tested (reviewer/author
+    judgment call: one full positive+negative pair on a tested image is
+    accepted as sufficient; this is noted here rather than silently
+    dropped). If a maintainer wants API 34 parity confirmed too, it's
+    the same two-step procedure above on an API 34 image.
 - ~~**`frida-tools`/`frida-server` version pinning**~~ — resolved. Per
   maintainer request, one pinned pair is now recorded: `frida-tools
   17.22.0` on the host, `frida-server-17.22.0-android-x86` on the device
   (x86 emulator image). See `operations.mdx`'s BYOD matrix.
-- **Exact `minSdk`:** not yet cross-checked directly against the live
-  `app/build.gradle` file in this environment.
+- ~~**Exact `minSdk`**~~ — resolved. Cross-checked directly against the
+  live `app/build.gradle` in `Mobile CTF Challenge (v2 Design)/app/`
+  (the project `src/README.md` points to as this lab's real source
+  tree): `minSdk = 24`, `compileSdk = 34`, `targetSdk = 34`. Both BYOD
+  matrix-tested emulator images (API 29, API 34) are at or above
+  `minSdk 24`, so neither tested image falls outside the app's declared
+  support range — no gap found. `operations.mdx`'s BYOD matrix row
+  updated to record the actual value instead of "as declared".
 
 ## The accepted static-shortcut trade-off
 
@@ -94,7 +110,9 @@ is intended to make).
 
 Core validation complete: APK rebuilt from current source, full solve
 chain run end-to-end, flag and `flag_hash` confirmed matching, release
-APK SHA-256 recorded. The two remaining open items above (negative-case
-false-positive check, exact `minSdk`) are minor and don't block a
-maintainer review, but should be closed out before this lab moves out of
-`status: experimental` in `lab.yml`.
+APK SHA-256 recorded, `minSdk` cross-checked directly against source,
+and the negative/positive false-positive check run live on an API 29
+emulator (clean device transfers normally; Frida re-attached is still
+correctly blocked). No open items remain from this validation pass. This
+lab is ready to move out of `status: experimental` in `lab.yml`, pending
+the maintainer's own review of the three sub-issues together.
