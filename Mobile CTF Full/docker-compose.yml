@@ -4,7 +4,7 @@ version: "3.9"
 #
 # This lab has no server-side component and nothing in the intended solve
 # path touches this container — the player installs bin/NexaWallet-debug.apk
-# directly on their own emulator/device (see ../README.md, "Delivery model").
+# directly on their own emulator/device (see README.md, "Delivery model").
 #
 # This service exists only so the catalog's general docker-compose.yml /
 # validate.py requirement has something to validate for a BYOD binary lab:
@@ -22,8 +22,8 @@ services:
     container_name: nexawallet-dist
     working_dir: /dist
     volumes:
-      - ./NexaWallet-debug.apk:/dist/NexaWallet-debug.apk:ro
-      - ../docs:/dist/docs:ro
+      - ./bin/NexaWallet-debug.apk:/dist/NexaWallet-debug.apk:ro
+      - ./docs:/dist/docs:ro
     ports:
       - "8090:8090"
     command: ["python3", "-m", "http.server", "8090"]

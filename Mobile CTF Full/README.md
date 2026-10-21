@@ -72,7 +72,7 @@ own Android emulator/device, `adb`, and Frida stack (host `frida-tools`
 for the full BYOD matrix (tested API levels, decompiler, Frida version
 pinning).
 
-`bin/docker-compose.yml` and `lab.yml`'s `port: 8090` exist only to
+`docker-compose.yml` and `lab.yml`'s `port: 8090` exist only to
 satisfy the catalog's general `docker-compose.yml`/`validate.py`
 requirement — they run a distribution-only HTTP server for the APK and
 docs, and nothing in the intended solve path ever touches that service.
