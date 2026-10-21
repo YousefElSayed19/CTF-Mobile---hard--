@@ -123,9 +123,9 @@ Only when **both** gates are satisfied does the app mint and display the flag �
 - [x] `lab.yml`, `check.py`, and all maintainer + player-facing docs (`docs/`), and technique pages (`techniques/`) completed
 - [x] Full walkthrough, objective/skills, player briefing, root-cause and mitigation documentation completed/updated for the current flag design
 - [x] **APK rebuilt from the updated source** by the author, locally (Android SDK isn't available in the authoring environment, so this step had to happen outside it)
-- [x] **Full solve chain re-run end-to-end on the rebuilt APK** — author confirmed the jadx static analysis + Frida dynamic-instrumentation chain in `docs/official-solution.mdx` against the rebuilt APK and recovered `duck{q68s_aehr341rbyn0cc87flkraa0hnmy}`, matching `lab.yml`'s `flag_hash`
+- [x] **Full solve chain re-run end-to-end on the rebuilt APK** — author confirmed the jadx static analysis + Frida dynamic-instrumentation chain in `docs/official-solution.mdx` against the rebuilt APK and recovered the correct flag, matching `lab.yml`'s `flag_hash` (see `docs/validation-report.mdx` for the check, not the flag itself)
 - [x] Release APK SHA-256 recorded in `docs/operations.mdx` (`a80baaf41745df20240a9c65992439cca2457e3e7de4fbd15058d6d791e38fac`)
-- [ ] **No environment-dependent false positives** — not yet separately re-confirmed (a clean, non-instrumented run on both API 29 and API 34)
+- [x] **No environment-dependent false positives** — confirmed live on an API 29 emulator: clean device (no Frida) does not block a normal transfer, and re-attaching Frida still blocks as intended (see `docs/validation-report.mdx`)
 - [x] `frida-tools`/`frida-server` versions pinned: `frida-tools 17.22.0` / `frida-server-17.22.0-android-x86` (see `docs/operations.mdx`)
 
 See `docs/validation-report.mdx` for the full sign-off and the two
